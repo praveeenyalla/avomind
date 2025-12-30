@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/assets/icon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AvoMind</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- Theme Color for browsers -->
+    <meta name="theme-color" content="#0A0A0A" />
+
+    <!-- Apple Touch Icon for iOS -->
+    <link rel="apple-touch-icon" href="/assets/icon.svg" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="AvoMind" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      // Configure Tailwind CSS to use the 'class' for dark mode
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            animation: {
+              fadeInUp: 'fadeInUp 0.6s ease-out forwards',
+              'pulse-slow': 'pulse 8s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+              'aurora-1': 'aurora 20s linear infinite',
+              'aurora-2': 'aurora 25s linear infinite reverse',
+              'aurora-3': 'aurora 30s linear infinite',
+               'sphere-spin-1': 'sphere-spin 15s linear infinite',
+               'sphere-spin-2': 'sphere-spin 25s linear infinite reverse',
+               'scaleIn': 'scaleIn 0.5s ease-out forwards',
+            },
+            keyframes: {
+              fadeInUp: {
+                '0%': { opacity: '0', transform: 'translateY(20px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' },
+              },
+               aurora: {
+                '0%': { transform: 'translate(var(--tw-translate-x-start), var(--tw-translate-y-start)) rotate(0deg) scale(1)' },
+                '50%': { transform: 'translate(var(--tw-translate-x-end), var(--tw-translate-y-end)) rotate(1.5)' },
+                '100%': { transform: 'translate(var(--tw-translate-x-start), var(--tw-translate-y-start)) rotate(360deg) scale(1)' },
+              },
+               'sphere-spin': {
+                '0%': { transform: 'rotate(0deg)' },
+                '100%': { transform: 'rotate(360deg)' },
+               },
+               scaleIn: {
+                '0%': { opacity: '0', transform: 'scale(0.7)' },
+                '100%': { opacity: '1', transform: 'scale(1)' },
+              },
+            },
+          },
+        },
+      }
+    </script>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=Michroma&display=swap');
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: #0A0A0A; /* Default dark background */
+      }
+      .light body {
+        background-color: #ffffff; /* Light mode background */
+      }
+
+      /* Custom scrollbar to match the design */
+      ::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+      }
+      .dark ::-webkit-scrollbar-track { background: #0A0A0A; }
+      .light ::-webkit-scrollbar-track { background: #f1f5f9; }
+      .dark ::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 5px; border: 2px solid #0A0A0A; }
+      .light ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 5px; }
+      .dark ::-webkit-scrollbar-thumb:hover { background: #52525b; }
+      .light ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+      
+      .typing-indicator {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 8px 0;
+      }
+      .typing-indicator span {
+        height: 8px;
+        width: 8px;
+        background-color: #94a3b8;
+        border-radius: 50%;
+        display: inline-block;
+        margin: 0 2px;
+        animation: bounce 1.4s infinite ease-in-out both;
+      }
+      .typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
+      .typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
+      @keyframes bounce {
+        0%, 80%, 100% { transform: scale(0); }
+        40% { transform: scale(1.0); }
+      }
+      
+      .button-gradient-animated {
+          background-image: linear-gradient(to right, #38bdf8, #818cf8, #c084fc, #38bdf8);
+          background-size: 200% auto;
+          transition: background-position 0.5s ease;
+      }
+      .button-gradient-animated:hover {
+          background-position: right center;
+      }
+
+      .mic-recording {
+        animation: mic-pulse 1.5s infinite ease-in-out;
+      }
+
+      @keyframes mic-pulse {
+        0%, 100% {
+          box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+          color: #f87171;
+        }
+        50% {
+          box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
+          color: #ef4444;
+        }
+      }
+
+      .brand-gradient-text {
+        background: linear-gradient(90deg, #22d3ee, #a78bfa);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-fill-color: transparent;
+      }
+
+      .aurora-background::before,
+      .aurora-background::after {
+        content: '';
+        position: absolute;
+        filter: blur(80px);
+        mix-blend-mode: plus-lighter;
+        opacity: 0.25;
+        z-index: 0;
+        pointer-events: none;
+      }
+      
+      .aurora-background::before {
+        width: 400px;
+        height: 400px;
+        border-radius: 9999px;
+        background: radial-gradient(circle at center, #7c3aed, transparent 60%);
+        --tw-translate-x-start: -20%; --tw-translate-y-start: 10%;
+        --tw-translate-x-end: 80%; --tw-translate-y-end: 90%;
+        animation: aurora 25s linear infinite alternate;
+      }
+
+      .aurora-background::after {
+        width: 350px;
+        height: 350px;
+        border-radius: 9999px;
+        background: radial-gradient(circle at center, #be185d, transparent 60%);
+        --tw-translate-x-start: 90%; --tw-translate-y-start: 80%;
+        --tw-translate-x-end: 10%; --tw-translate-y-end: -10%;
+        animation: aurora 30s linear infinite alternate-reverse;
+      }
+      
+    </style>
+     <script src="https://accounts.google.com/gsi/client" async defer></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script type="importmap">
+{
+  "imports": {
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.19.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.1.1/",
+    "react/": "https://aistudiocdn.com/react@^19.1.1/",
+    "react": "https://aistudiocdn.com/react@^19.1.1",
+    "uuid": "https://aistudiocdn.com/uuid@^13.0.0",
+    "react-syntax-highlighter/": "https://aistudiocdn.com/react-syntax-highlighter@^15.6.6/",
+    "react-syntax-highlighter": "https://aistudiocdn.com/react-syntax-highlighter@^15.6.6",
+    "remark-gfm": "https://aistudiocdn.com/remark-gfm@^4.0.1",
+    "react-markdown": "https://aistudiocdn.com/react-markdown@^10.1.0"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body class="dark">
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
